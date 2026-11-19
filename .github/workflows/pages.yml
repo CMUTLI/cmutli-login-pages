@@ -1,0 +1,47 @@
+# A preview copy on GitHub Pages. www.tli.cmu.edu/login/ is the real site;
+# this copy lives under /cmutli-login-pages/, so its site-root addresses get
+# that prefix, and it drops the Google tag and asks not to be indexed, so
+# previews stay out of the site's numbers and out of search.
+name: Pages preview
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Make the preview copy
+        run: |
+          base="/${GITHUB_REPOSITORY#*/}"
+          mkdir -p _site
+          cp -r login _site/
+          find _site -name '*.html' -print0 | xargs -0 perl -0pi -e '
+            s{<!-- Google tag .*?</script>\s*<script>\s*window\.dataLayer.*?</script>\s*}{}s;
+            s{(<meta charset="[^"]*"\s*/?>)}{$1\n    <meta name="robots" content="noindex" />} unless /name="robots"/;
+            s{(["(]|&quot;)/login/}{$1'"$base"'/login/}g;
+          '
+          if grep -rl 'googletagmanager' _site; then echo "Google tag still in the preview" >&2; exit 1; fi
+          printf '<!doctype html><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=login/learning/"><title>Sign-In Pages</title><a href="login/learning/">Sign-In Pages</a>\n' > _site/index.html
+      - uses: actions/upload-pages-artifact@v3
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
