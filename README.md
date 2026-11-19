@@ -23,9 +23,10 @@ front of it. From a Web Kilt checkout:
 
     npm run preview -- --proxy http://127.0.0.1:4200    # http://127.0.0.1:4100/login/learning/
 
-The pages load the Web Kilt 0.8.16 from jsDelivr, the first release with the
-Sign-In Page. Until it's released, preview through the proxy. When it's out,
-add the integrity hashes to each page's two Kilt `<link>`s.
+The pages load the Web Kilt 0.8.17 from jsDelivr, pinned with integrity
+hashes. For a newer release, change the version in each page's two Kilt
+`<link>`s and replace their hashes with the release's (the Web Kilt's
+`package.json` lists them).
 
 ## Google Tag
 
