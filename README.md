@@ -7,9 +7,10 @@ on CMU's web template and the
 [Carnegie Mellon Web Kilt](https://webkilt.andrew.cmu.edu/)'s Sign-In Page.
 Static HTML, no build step.
 
-| Page              | Address                                 | Ways in                                                                                                              |
-| ----------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `login/learning/` | https://www.tli.cmu.edu/login/learning/ | Google and LinkedIn (through Cirrus Identity), an Andrew account and a Canvas-specific account, for learning.cmu.edu |
+| Page                      | Address                                         | Ways in                                                                                                              |
+| ------------------------- | ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `login/learning/`         | https://www.tli.cmu.edu/login/learning/         | Google and LinkedIn (through Cirrus Identity), an Andrew account and a Canvas-specific account, for learning.cmu.edu |
+| `login/learning/unknown/` | https://www.tli.cmu.edu/login/learning/unknown/ | None: where learning.cmu.edu sends someone who signed in but has no account there (Canvas's unknown user address)    |
 
 Page copy says "Sign In"; addresses say `login`. Link a page by its folder
 (`/login/learning/`), never `index.html`.
